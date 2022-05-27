@@ -1,0 +1,5 @@
+C:\Projects\AudioWavLab\DataPlotAndSelect\bin\Debug\DataPlotAndSelect.dll
+C:\Projects\AudioWavLab\DataPlotAndSelect\bin\Debug\DataPlotAndSelect.pdb
+C:\Projects\AudioWavLab\DataPlotAndSelect\obj\Debug\DataPlotAndSelect.csprojResolveAssemblyReference.cache
+C:\Projects\AudioWavLab\DataPlotAndSelect\obj\Debug\DataPlotAndSelect.dll
+C:\Projects\AudioWavLab\DataPlotAndSelect\obj\Debug\DataPlotAndSelect.pdb

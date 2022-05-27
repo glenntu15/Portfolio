@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ScanWordfiles": {
+      "commandName": "Project",
+      "commandLineArgs": " Shi -p C:\\users\\glenn.000\\Documents\\TestFileScanner -nc"
+    }
+  }
+}

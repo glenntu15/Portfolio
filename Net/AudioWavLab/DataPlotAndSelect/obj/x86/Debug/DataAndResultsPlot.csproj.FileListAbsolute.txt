@@ -1,0 +1,9 @@
+C:\Projects\AudioWavLab\DataPlotAndSelect\bin\x86\Debug\DataAndResultsPlot.dll
+C:\Projects\AudioWavLab\DataPlotAndSelect\bin\x86\Debug\DataAndResultsPlot.pdb
+C:\Projects\AudioWavLab\DataPlotAndSelect\obj\x86\Debug\DataAndResultsPlot.csprojResolveAssemblyReference.cache
+C:\Projects\AudioWavLab\DataPlotAndSelect\obj\x86\Debug\DataAndResultsPlot.PlotAndSelect.resources
+C:\Projects\AudioWavLab\DataPlotAndSelect\obj\x86\Debug\DataAndResultsPlot.PlotScaleForm.resources
+C:\Projects\AudioWavLab\DataPlotAndSelect\obj\x86\Debug\DataAndResultsPlot.SpectralResults.resources
+C:\Projects\AudioWavLab\DataPlotAndSelect\obj\x86\Debug\DataAndResultsPlot.csproj.GenerateResource.Cache
+C:\Projects\AudioWavLab\DataPlotAndSelect\obj\x86\Debug\DataAndResultsPlot.dll
+C:\Projects\AudioWavLab\DataPlotAndSelect\obj\x86\Debug\DataAndResultsPlot.pdb

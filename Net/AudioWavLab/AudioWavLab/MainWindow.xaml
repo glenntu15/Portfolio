@@ -1,0 +1,25 @@
+﻿<Window x:Class="AudioWavLab.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button Name="PlotButton" Content="Plot and Select" HorizontalAlignment="Left" Margin="49,148,0,0" VerticalAlignment="Top" Width="118" Click="PlotButton_Click"/>
+        <Menu HorizontalAlignment="Left" Height="21" Margin="10,0,0,0" VerticalAlignment="Top" Width="125">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" IsCheckable="true"/>
+                <MenuItem Header="_Close" IsCheckable="true"/>
+                <MenuItem Header="_Save" IsCheckable="true"/>
+            </MenuItem>
+
+        </Menu>
+        <Button x:Name="GenerateFunction" Content="Generate Function" HorizontalAlignment="Left" Margin="287,38,0,0" VerticalAlignment="Top" Width="118" Click="GenerateFunction_Click"/>
+        <Button x:Name="analyzeButton" Content="Analysis &amp; Results" HorizontalAlignment="Left" Margin="49,203,0,0" VerticalAlignment="Top" Width="118" Click="analyzeButton_Click"/>
+        <Label x:Name ="generatedStatusLabel" Content="None Generated" HorizontalAlignment="Left" Margin="300,63,0,0" VerticalAlignment="Top" Width="185" Foreground="#FFF10C35" Focusable="True"/>
+        <Button x:Name="readFile" Content="Read WAV File" HorizontalAlignment="Left" Margin="49,38,0,0" VerticalAlignment="Top" Width="118" Click="ReadFile_Click"/>
+        <Label x:Name ="readFileStatusLabel" Content="None Input" HorizontalAlignment="Left" Margin="49,63,0,0" VerticalAlignment="Top" Width="365" Foreground="#FFF10C35" Focusable="True"/>
+        <Label x:Name="bitsPerSample" Content="Label" HorizontalAlignment="Left" Margin="297,163,0,0" VerticalAlignment="Top" Width="188" Foreground="#FF152D99"/>
+        <Label x:Name="samplesPerSecond" Content="Label" HorizontalAlignment="Left" Margin="297,126,0,0" VerticalAlignment="Top" Width="188" Foreground="#FF152D99"/>
+        <Button x:Name="saveToFileButton" Content="Save to File" HorizontalAlignment="Left" Margin="49,111,0,0" VerticalAlignment="Top" Width="118" Click="savetoFileButton_Click"/>
+
+    </Grid>
+</Window>

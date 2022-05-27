@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "ScanWordfiles/1.0.0": {
+        "runtime": {
+          "ScanWordfiles.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ScanWordfiles/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
