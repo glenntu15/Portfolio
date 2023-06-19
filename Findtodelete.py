@@ -31,7 +31,7 @@ def ListThisDir(path):
         else:
             #print("        file ",f)
             if (f.find(".circ") > 1):
-                print("  ----> Check this one:   ", f)
+                print("  ----> Check this one:   ", fullsubpath)
             if (f.find(".log") > 1):
                 print(" Deleting: ",fullsubpath)
                 os.remove(fullsubpath)
@@ -44,6 +44,14 @@ def ListThisDir(path):
             if (f.find(".exe") > 1):
                 print(" Deleting: ",fullsubpath)
                 os.remove(fullsubpath)
+            loc = f.find(".cache")
+            if (loc > 1 ):
+                diff = len(f)  - loc;
+                if (diff == 6):
+                    print(" Deleting: ",fullsubpath)
+                    os.remove(fullsubpath)
+
+                #print(" file is: ",fullsubpath," diff is ",diff)
             if (f.find(".pdb") > 1):
                 print(" Deleting: ",fullsubpath)
                 os.remove(fullsubpath)
