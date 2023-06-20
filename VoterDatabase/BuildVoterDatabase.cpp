@@ -85,7 +85,6 @@ int BuildVoterDatabase::BuildDictionary(std::string infile_name)
 	// skip header
 	getline(file, line);
 
-	int nadded = 0;
 	if (file.is_open())
 	{
 		// this is the createion of the DbIO class instance
@@ -223,7 +222,6 @@ int BuildVoterDatabase::PutRecordsInDatabase(std::string infile_name)
 	// skip header
 	getline(file, line);
 
-	int nadded = 0;
 	if (file.is_open())
 	{
 		// this is the createion of the DbIO class instance

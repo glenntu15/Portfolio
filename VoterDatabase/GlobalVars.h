@@ -5,7 +5,7 @@
 //#include <map>
 #include <unordered_map>
 
-#define BLKSIZE 4096
+#define BLKSIZE 32768
 #define LRECL 128
 #define DRECL 16
 
@@ -43,6 +43,10 @@ namespace glbl
 
     static char database_name[] = "C:\\tmp\\database.bin";
     static char data_path[] = "C:\\tmp\\";
+
+    //static char database_name[] = "/home/glenntu/data/database.bin";
+    //static char data_path[] = "/home/glenntu/data/";
+
 
     static int Block_size = BLKSIZE;
     static int Lrecl = LRECL;

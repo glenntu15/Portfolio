@@ -7,7 +7,7 @@
 
 int main(int argc, char* argv[])
 {
-    bool moderead = false;
+ 
     std::ios::sync_with_stdio(false);
 
     if (argc > 1) {

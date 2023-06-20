@@ -1,7 +1,8 @@
 #include "DbIO.h"
 #include <string.h>
 #include <time.h>
-
+//#include <iostream>
+//#include <fstream>
 
 DbIO* DbIO::_dbio = NULL;
 /// <summary>
@@ -148,7 +149,7 @@ void DbIO::ReadRecord()
 void DbIO::ReadRecord(int blockno)
 {
 	std::streamsize p = blockno * BLKSIZE;
-	readdb.seekg(p, 0);
+	readdb.seekg(p, std::ios_base::beg);
 	readdb.read(buffer, BLKSIZE);
 	buffer_pos_ = 0;
 	blocks_read_++;

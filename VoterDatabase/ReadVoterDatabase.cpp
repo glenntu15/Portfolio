@@ -58,7 +58,7 @@ void ReadVoterDatabase::BeganRead()
 int ReadVoterDatabase::RebuildDictionary()
 {
 	int header[4] = { 0, 0, 0, 0 };
-	int datarecords = 0;
+	//int datarecords = 0;
 	DbIO* pDb = DbIO::GetInstance();
 	std::cout << " Opening database: " << glbl::database_name << std::endl;
 	pDb->OpenRead(glbl::database_name);
@@ -111,7 +111,7 @@ int num_entries = static_cast<int>(glbl::dictionary.size());
 #ifdef _DEBUG
 std::cout << " -debug- Number of dictionary entries " << num_entries << std::endl;
 #endif
-return datarecords;
+return num_entries;
 }
 /// <summary>
 /// 
@@ -166,7 +166,7 @@ int ReadVoterDatabase::ProcessKeys()
 		pDb->ReadSpecificRecord(&ret_record, LRECL, ent.blockno + dictionary_block_offset_, ent.offset);
 		if ((num_processed % 2000) == 0){
 			ret_record[iend] = NULL;
-			std::string word;
+			//std::string word;
 			int nfields = 0;
 			std::stringstream str(line);
 			// This may need to be changed for other file formats in these files
@@ -178,7 +178,7 @@ int ReadVoterDatabase::ProcessKeys()
 			//const char* pword = word.c_str();
 			//long int lvid = strtol(pword, NULL, 0);
 
-			std::string::size_type sz;
+			//std::string::size_type sz;
 			long int lvid = std::stol(word, &sz);
 
 			int dbvid = static_cast<unsigned>(lvid);
