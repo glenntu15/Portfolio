@@ -165,8 +165,8 @@ int ReadVoterDatabase::ProcessKeys()
 		//std::cout << " block " << ent.blockno << " offset " << ent.offset << std::endl;
 		pDb->ReadSpecificRecord(&ret_record, LRECL, ent.blockno + dictionary_block_offset_, ent.offset);
 		if ((num_processed % 2000) == 0){
-			ret_record[iend] = NULL;
-			//std::string word;
+			ret_record[iend] = '\0';
+			std::string word;
 			int nfields = 0;
 			std::stringstream str(line);
 			// This may need to be changed for other file formats in these files
@@ -178,7 +178,7 @@ int ReadVoterDatabase::ProcessKeys()
 			//const char* pword = word.c_str();
 			//long int lvid = strtol(pword, NULL, 0);
 
-			//std::string::size_type sz;
+			std::string::size_type sz;
 			long int lvid = std::stol(word, &sz);
 
 			int dbvid = static_cast<unsigned>(lvid);
