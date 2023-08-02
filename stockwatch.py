@@ -1,4 +1,4 @@
-#from lib2to3.refactor import get_all_fix_names
+
 import sys
 from collections import namedtuple
 #from operator import attrgetter
@@ -7,7 +7,12 @@ import yfinance as yf
 Stockentry = namedtuple("stockentry", 'sym name currentPrice change annyield')
 
 def Returnstockdata(sysmbol):
-    data = yf.Ticker(symbol).info
+
+    try:
+        data = yf.Ticker(symbol).info
+    except:
+        print("ERROR symbol ",symbol," not found")
+        exit()
 
     scurrentPrice = data['currentPrice']
     previousClose = data['previousClose']
@@ -36,13 +41,12 @@ Dowsymbols = ["AXP",  "AMGN", "AAPL", "CAT", "CSCO",
               "TRV",  "UNH",  "CRM",  "VZ",   "V",
               "WBA",  "WMT",  "DIS",  "DOW",  "BA"]
 Mysymbols =  ["AAPL", "RIO",  "XOM",  "SPOT", "NRG",
-              "TGT",  "ET",   "FANG", "AES",  "LYB"
+              "TGT",  "ET",   "FANG", "AES",  "LYB",
               "NWL"]
 
 watchlist = []
 
 n = len(sys.argv)
-print("n = ",n)
 mylist = True
 if (n > 1):
     if sys.argv[1] == '-d':
