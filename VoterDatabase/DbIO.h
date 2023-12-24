@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include "GlobalVars.h"
+#include "GlobalDefs.h"
 
 
 // all binary IO performed through this class
@@ -43,8 +43,8 @@ protected:
 /// @brief Outputs the physical record from the also protected buffer
 /// @return None
 	void WriteRecord();
-	void ReadRecord(int blockno);
-	void ReadRecord();
+	void ReadRecord(int blockno, int size);
+	void ReadRecord(int size);
 
 public:
 	// singleton stuff
@@ -60,14 +60,15 @@ public:
 	
 	int GetBlocksWritten() { return blocks_written_; }
 	int GetBlocksRead() { return blocks_read_; }
-
+	// opens closes
+	// we may have to have two files open at a time when writing the database and an index file is used
 	bool OpenRead(std::string filename);
 	bool OpenWrite(std::string filename);
 	int FlushPartialBuffer();
 	void CloseFile();
 
 	void OutputLogicalRecord(void* data, int length);
-	int ReadNextLogicalRecord(void* data, int length);
+	void ReadNextLogicalRecord(void* data, int length);
 	int ReadSpecificRecord(void* data, int length, int blockno, int offset);
 
 	void SetUpDebugout() { debug_out_ = true; }
