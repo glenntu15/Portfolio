@@ -94,10 +94,10 @@ void DbIO::WriteRecord()
 	writedb.write(buffer, BLKSIZE);
 	buffer_pos_ = 0;
 	blocks_written_++;
-	/*if (debug_out_)
+	if (debug_out_)
 	{
 		Write_debug();
-	}*/
+	}
 }
 void DbIO::Write_debug()
 {
@@ -112,20 +112,19 @@ void DbIO::Write_debug()
 /// </summary>
 /// <param name="record"></param>
 /// <param name="length"></param>
-/// <returns></returns>
-int DbIO::ReadNextLogicalRecord(void* record, int length)
+
+void DbIO::ReadNextLogicalRecord(void* record, int length)
 {
 	if (buffer_pos_ == BLKSIZE) {
-		ReadRecord();		// sets buffer_pos_ to zero
+		ReadRecord(BLKSIZE);		// sets buffer_pos_ to zero
 	}
 	memcpy(record, buffer + buffer_pos_, length);
 	buffer_pos_ += length;
-	return current_block_;
 }
 int DbIO::ReadSpecificRecord(void* data, int length, int blockno, int offset)
 {
 	if (current_block_ != blockno) {
-		ReadRecord(blockno);
+		ReadRecord(blockno, BLKSIZE);
 	}
 	memcpy(data, buffer + offset, length);
 	buffer_pos_ += length;
@@ -134,9 +133,9 @@ int DbIO::ReadSpecificRecord(void* data, int length, int blockno, int offset)
 /// <summary>
 /// overloaded function -- reads the next physical record
 /// </summary>
-void DbIO::ReadRecord()
+void DbIO::ReadRecord(int size)
 {
-	readdb.read(buffer, BLKSIZE);
+	readdb.read(buffer, size);
 	buffer_pos_ = 0;
 	blocks_read_++;
 }
@@ -146,11 +145,11 @@ void DbIO::ReadRecord()
 /// <param name="blockno">
 /// block number to be read
 /// </param>
-void DbIO::ReadRecord(int blockno)
+void DbIO::ReadRecord(int blockno, int size)
 {
-	std::streamsize p = blockno * BLKSIZE;
+	std::streamsize p = blockno * size;
 	readdb.seekg(p, std::ios_base::beg);
-	readdb.read(buffer, BLKSIZE);
+	readdb.read(buffer, size);
 	buffer_pos_ = 0;
 	blocks_read_++;
 	current_block_ = blockno;

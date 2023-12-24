@@ -7,7 +7,6 @@
 #include <string.h>
 #include <time.h>
 
-#include "GlobalVars.h"
 #include <time.h>
 #include "DbIO.h"
 
@@ -60,12 +59,12 @@ int ReadVoterDatabase::RebuildDictionary()
 	int header[4] = { 0, 0, 0, 0 };
 	//int datarecords = 0;
 	DbIO* pDb = DbIO::GetInstance();
-	std::cout << " Opening database: " << glbl::database_name << std::endl;
-	pDb->OpenRead(glbl::database_name);
+	std::cout << " Opening database: " << DATABASE_NAME << std::endl;
+	pDb->OpenRead(DATABASE_NAME);
 
 // get a physical record into the buffer
 
-int rcode = pDb->ReadNextLogicalRecord(header, DRECL);
+pDb->ReadNextLogicalRecord(header, DRECL);
 #ifdef _DEBUG
 std::cout << " dictionary entries " << header[0] << " BLKSIZE " << header[1] << std::endl;
 std::cout << " LRECL " << header[2] << " DRECL " << header[3] << std::endl;
@@ -103,11 +102,11 @@ for (int i = 0; i < header[0]; i++) {
 	pent->blockno = record.blockno;
 	pent->offset = record.offset;
 
-	glbl::dictionary[record.vid] = *pent;
+	dictionary_[record.vid] = *pent;
 
 	delete pent;
 }
-int num_entries = static_cast<int>(glbl::dictionary.size());
+int num_entries = static_cast<int>(dictionary_.size());
 #ifdef _DEBUG
 std::cout << " -debug- Number of dictionary entries " << num_entries << std::endl;
 #endif
@@ -130,60 +129,66 @@ int ReadVoterDatabase::ProcessKeys()
 	DbIO* pDb = DbIO::GetInstance();
 	//pDb->OpenRead(glbl::database_name);
 
-	std::string input_file = glbl::data_path + std::string("searchkeys.txt");
+	std::string input_file = DATA_PATH + std::string("searchkeys.txt");
 	std::cout << "  - processing file: " << input_file << std::endl;
 	file.open(input_file, std::ios::in);
 #ifdef _DEBUG
 	unsigned int iddb = 80609209;
-	dictentry ent = glbl::dictionary.at(iddb);
-	//std::cout << " block " << ent.blockno << " offset " << ent.offset << std::endl;
-	pDb->ReadSpecificRecord(&ret_record, LRECL, ent.blockno + dictionary_block_offset_, ent.offset);
+	dictentry dbent = dictionary_.at(iddb);
+	std::cout << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
+	pDb->ReadSpecificRecord(&ret_record, LRECL, dbent.blockno + dictionary_block_offset_, dbent.offset);
 	ret_record[iend] = NULL;
 	std::cout << ret_record << std::endl;
-	DebugPrintRecord(ret_record, LRECL);
+	//DebugPrintRecord(ret_record, LRECL);
 
 	iddb = 84610229;
-	ent = glbl::dictionary.at(iddb);
-	//std::cout << " block " << ent.blockno << " offset " << ent.offset << std::endl;
-	pDb->ReadSpecificRecord(&ret_record, LRECL, ent.blockno + dictionary_block_offset_, ent.offset);
+	dbent = dictionary_.at(iddb);
+	std::cout << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
+	pDb->ReadSpecificRecord(&ret_record, LRECL, dbent.blockno + dictionary_block_offset_, dbent.offset);
+	ret_record[iend] = NULL;
+	std::cout << ret_record << std::endl;
+
+	iddb = 87015467;
+	dbent = dictionary_.at(iddb);
+	std::cout << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
+	pDb->ReadSpecificRecord(&ret_record, LRECL, dbent.blockno + dictionary_block_offset_, dbent.offset);
 	ret_record[iend] = NULL;
 	std::cout << ret_record << std::endl;
 #endif
 	while (getline(file, line))
 	{
-		std::stringstream str(line);
+		std::stringstream inpstr(line);
 		// this may need to be changed for other file formats in these files
 		// the first word is "active" status, second word is voter id, third word is sosid
-		getline(str, word, ',');
-		getline(str, word, ',');
+		getline(inpstr, word, ',');
+		getline(inpstr, word, ',');
 
 		std::string::size_type sz;
 		long int lvid = std::stol(word, &sz);
 		unsigned int id = static_cast<unsigned int>(lvid);
 
-		dictentry ent = glbl::dictionary.at(id);
-		//std::cout << " block " << ent.blockno << " offset " << ent.offset << std::endl;
+		dictentry ent = dictionary_.at(id);
+		if ((id == 73093452) || (id == 31844111)) {
+			std::cout << " id " << id;
+			std::cout << " block " << ent.blockno << " offset " << ent.offset << std::endl;
+		}
+			
 		pDb->ReadSpecificRecord(&ret_record, LRECL, ent.blockno + dictionary_block_offset_, ent.offset);
 		if ((num_processed % 2000) == 0){
 			ret_record[iend] = '\0';
-			std::string word;
-			int nfields = 0;
-			std::stringstream str(line);
+			//td::cout << " checking id " << id << std::endl;
+			inpstr.str(ret_record);
 			// This may need to be changed for other file formats in these files
 			// the first word is "active" status, second word is Voter ID, third word is SOSID
-			getline(str, word, ',');
-			getline(str, word, ',');
+			getline(inpstr, word, ',');
+			getline(inpstr, word, ',');
 
-			//std::cout << "debug vid string is " << word << std::endl;
-			//const char* pword = word.c_str();
-			//long int lvid = strtol(pword, NULL, 0);
+			//std::string::size_type sz;
+			lvid = std::stol(word, &sz);
 
-			std::string::size_type sz;
-			long int lvid = std::stol(word, &sz);
-
-			int dbvid = static_cast<unsigned>(lvid);
-			if (dbvid != id) {
-				std::cout << " error: id = " << id << " but record shows id: " << dbvid << std::endl;
+			unsigned int uvid = static_cast<unsigned>(lvid);
+			if (uvid != id) {
+				std::cout << " error: id = " << id << " but record shows id: " << uvid << std::endl;
 			}
 		}
 		//std::cout << ret_record << std::endl;
