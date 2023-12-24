@@ -5,7 +5,7 @@ OBJS = VoterDatabase.o BuildVoterDatabase.o DbIO.o ReadVoterDatabase.o
 VoterDatabase: $(OBJS)
 	$(COMPILER) -o $@ $(OBJS)
 
-$(OBJS) : $(SOURCE) GlobalVars.h DbIO.h ReadVoterDatabase.h BuildVoterDatabase.h
+$(OBJS) : $(SOURCE) GlobalDefs.h DbIO.h ReadVoterDatabase.h BuildVoterDatabase.h
 	$(COMPILER) -c $(CPPFLAGS) $(SOURCE)
 clean:
 	rm *.o
