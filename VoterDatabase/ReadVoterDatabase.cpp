@@ -64,10 +64,10 @@ int ReadVoterDatabase::RebuildDictionary()
 
 // get a physical record into the buffer
 
-pDb->ReadNextLogicalRecord(header, DRECL);
-#ifdef _DEBUG
-std::cout << " dictionary entries " << header[0] << " BLKSIZE " << header[1] << std::endl;
-std::cout << " LRECL " << header[2] << " DRECL " << header[3] << std::endl;
+	pDb->ReadNextLogicalRecord(header, DRECL);
+	#ifdef _DEBUG
+	std::cout << " dictionary entries " << header[0] << " BLKSIZE " << header[1] << std::endl;
+	std::cout << " LRECL " << header[2] << " DRECL " << header[3] << std::endl;
 #endif 
 
 // make sure current parmaters are consistent with what was used int the database
@@ -123,7 +123,10 @@ int ReadVoterDatabase::ProcessKeys()
 	std::string line;
 	std::string word;
 
-	char ret_record[LRECL];
+	char ret_record[LRECL+1];
+#ifdef _DEBUG
+	char last_good[LRECL];
+#endif 
 	int iend = LRECL - 1;
 
 	DbIO* pDb = DbIO::GetInstance();
@@ -135,7 +138,7 @@ int ReadVoterDatabase::ProcessKeys()
 #ifdef _DEBUG
 	unsigned int iddb = 80609209;
 	dictentry dbent = dictionary_.at(iddb);
-	std::cout << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
+	std::cout << " id searched " << iddb << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
 	pDb->ReadSpecificRecord(&ret_record, LRECL, dbent.blockno + dictionary_block_offset_, dbent.offset);
 	ret_record[iend] = NULL;
 	std::cout << ret_record << std::endl;
@@ -143,18 +146,41 @@ int ReadVoterDatabase::ProcessKeys()
 
 	iddb = 84610229;
 	dbent = dictionary_.at(iddb);
-	std::cout << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
+	std::cout << " id searched " << iddb << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
 	pDb->ReadSpecificRecord(&ret_record, LRECL, dbent.blockno + dictionary_block_offset_, dbent.offset);
 	ret_record[iend] = NULL;
 	std::cout << ret_record << std::endl;
 
-	iddb = 87015467;
+//	iddb = 3368461;
+//	dbent = dictionary_.at(iddb);
+//	std::cout << " id searched " << iddb << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
+//	pDb->ReadSpecificRecord(&ret_record, LRECL, dbent.blockno + dictionary_block_offset_, dbent.offset);
+//	ret_record[iend] = NULL;
+//	std::cout << ret_record << std::endl;
+
+	iddb = 74551771;
 	dbent = dictionary_.at(iddb);
-	std::cout << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
+	std::cout << " id searched " << iddb << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
 	pDb->ReadSpecificRecord(&ret_record, LRECL, dbent.blockno + dictionary_block_offset_, dbent.offset);
 	ret_record[iend] = NULL;
 	std::cout << ret_record << std::endl;
+
+//	iddb = 56362858;
+//	dbent = dictionary_.at(iddb);
+//	std::cout << " id searched " << iddb << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
+//	pDb->ReadSpecificRecord(&ret_record, LRECL, dbent.blockno + dictionary_block_offset_, dbent.offset);
+//	ret_record[iend] = NULL;
+//	std::cout << ret_record << std::endl;
+
+	iddb = 40142499;
+	dbent = dictionary_.at(iddb);
+	std::cout << " id searched " << iddb << " block " << dbent.blockno << " offset " << dbent.offset << std::endl;
+	pDb->ReadSpecificRecord(&ret_record, LRECL, dbent.blockno + dictionary_block_offset_, dbent.offset);
+	ret_record[iend] = NULL;
+	std::cout << ret_record << std::endl;
+
 #endif
+	std::string::size_type sz;
 	while (getline(file, line))
 	{
 		std::stringstream inpstr(line);
@@ -163,19 +189,21 @@ int ReadVoterDatabase::ProcessKeys()
 		getline(inpstr, word, ',');
 		getline(inpstr, word, ',');
 
-		std::string::size_type sz;
 		long int lvid = std::stol(word, &sz);
 		unsigned int id = static_cast<unsigned int>(lvid);
 
 		dictentry ent = dictionary_.at(id);
-		if ((id == 73093452) || (id == 31844111)) {
-			std::cout << " id " << id;
-			std::cout << " block " << ent.blockno << " offset " << ent.offset << std::endl;
-		}
-			
+		//if ((id == 40142499) || (id == 70588199)) {
+		//	std::cout << " id " << id;
+		//	std::cout << " block " << ent.blockno << " offset " << ent.offset << std::endl;
+		//}
+		
 		pDb->ReadSpecificRecord(&ret_record, LRECL, ent.blockno + dictionary_block_offset_, ent.offset);
-		if ((num_processed % 2000) == 0){
-			ret_record[iend] = '\0';
+		ret_record[iend] = '\0';
+		//if (ent.blockno >= 38867)
+		//	std::cout << " record in trouble block id " << id << " record " << ret_record << std::endl;
+		if ((num_processed % 2000) == 0) {
+			
 			//td::cout << " checking id " << id << std::endl;
 			inpstr.str(ret_record);
 			// This may need to be changed for other file formats in these files
@@ -188,8 +216,11 @@ int ReadVoterDatabase::ProcessKeys()
 
 			unsigned int uvid = static_cast<unsigned>(lvid);
 			if (uvid != id) {
-				std::cout << " error: id = " << id << " but record shows id: " << uvid << std::endl;
+				std::cout << " error: id = " << id << " but record shows id: " << uvid << " block " << ent.blockno << " num processed " << num_processed << std::endl;
 			}
+			//else {
+			//	std::cout << " match at ID " << id << "ent.blockno " << ent.blockno << " and ent.offset " << ent.offset << std::endl;
+			//}
 		}
 		//std::cout << ret_record << std::endl;
 		num_processed++;

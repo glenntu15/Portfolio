@@ -68,6 +68,8 @@ int BuildVoterDatabase::BuildWithSingleFile()
 	c_end = std::clock();
 	time_elapsed_seconds = (double)(c_end - c_start) / (double)CLOCKS_PER_SEC;
 
+	pDb->CloseFile();
+
 	std::cout << " Number of records added to database: " << total << std::endl;
 	std::cout << " Number of blocks written: " << pDb->GetBlocksWritten() << std::endl;
 	std::cout << std::fixed;
@@ -98,10 +100,9 @@ int BuildVoterDatabase::BuildDictionary(std::string infile_name, int& status_fla
 		
 		while (getline(file, line))
 		{
+			
 			ParseLine(line, vid, sosid);
-			//if ((vid == 73093452) || (vid == 31844111))
-			//	std::cout << " returned " << vid << " and " << sosid << std::endl;
-	
+		
 			dictentry* pent = new dictentry();
 			pent->sosid = sosid;
 			pent->blockno = current_block;

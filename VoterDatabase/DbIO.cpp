@@ -127,7 +127,7 @@ int DbIO::ReadSpecificRecord(void* data, int length, int blockno, int offset)
 		ReadRecord(blockno, BLKSIZE);
 	}
 	memcpy(data, buffer + offset, length);
-	buffer_pos_ += length;
+	//buffer_pos_ += length;
 	return current_block_;
 }
 /// <summary>
@@ -147,9 +147,19 @@ void DbIO::ReadRecord(int size)
 /// </param>
 void DbIO::ReadRecord(int blockno, int size)
 {
-	std::streamsize p = blockno * size;
+	std::streampos p = blockno * size;
 	readdb.seekg(p, std::ios_base::beg);
+	//auto pos = readdb.tellg();	check seekg
+
+	// assume open
 	readdb.read(buffer, size);
+	/*if (readdb.is_open())
+		readdb.read(buffer, size);
+	else
+		std::cout << " stream not oppen" << std::endl;*/
+	// may be an abuse of the overload of istream
+	if (!readdb)
+		std::cout << " ERROR ON READ" << std::endl;
 	buffer_pos_ = 0;
 	blocks_read_++;
 	current_block_ = blockno;
@@ -164,6 +174,11 @@ void DbIO::CloseFile()
 		isOpenRead_ = false;
 	}
 	if (isOpenWrite_) {
+		if (buffer_pos_ >= 0) {
+			WriteRecord();
+			std::cout << " writing final record, count is " << blocks_written_ << std::endl;
+		}
+			
 		writedb.close();
 		isOpenWrite_ = false;
 	}
