@@ -15,7 +15,7 @@
 class DbIO
 {
 private:
-	char* buffer{};
+	char* buffer;
 protected:
 
 	DbIO()						// protected default constructor

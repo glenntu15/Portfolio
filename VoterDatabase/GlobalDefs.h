@@ -5,9 +5,20 @@
 //#include <map>
 #include <unordered_map>
 
-#define BLKSIZE 4096
+#define BLKSIZE 8192
 #define LRECL 128
 #define DRECL 16
+
+#ifdef _CONSOLE                 // these wil be for Windows
+static std::string DATABASE_NAME = "C:\\tmp\\database.bin";
+static std::string INDEXFILE_NAME = "C: \\tmp\\index.bin";
+static std::string DATA_PATH = "C:\\tmp\\";
+#else
+static std::string DATABASE_NAME = "/home/glenntu/data/database.bin";
+static std::string INDEXFILE_NAME = "/home/glenntu/data/index.bin";
+static std::string DATA_PATH = "/home/glenntu/data/";
+#endif
+
 // two methods of creating a struct -- just because
 // dictentry is a object in the dictionary, the voter id (vid) is the key
 typedef struct
@@ -38,20 +49,10 @@ struct dictrecord
         offset = 0;
     }
 };
-
+// unordered_map is a dictionary like a python dictionary
 static std::unordered_map<unsigned int, dictentry> dictionary_;
+// with std:: map elements are sorted
 //static std::map<unsigned int, dictentry> dictionary_;
-
-            // end of common definit
-#ifdef _CONSOLE                 // these wil be for Windows
-static std::string DATABASE_NAME = "C:\\tmp\\database.bin";
-static std::string INDEXFILE_NAME = "C: \\tmp\\index.bin";
-static std::string DATA_PATH = "C:\\tmp\\";
-#else
-static std::string DATABASE_NAME = "/home/glenntu/data/database.bin";
-static std::string INDEXFILE_NAME = "/home/glenntu/data/index.bin";
-static std::string DATA_PATH = "/home/glenntu/data/";
-#endif
 
 
 #endif
