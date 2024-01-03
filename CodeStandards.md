@@ -1,6 +1,7 @@
-# Coding Starnards
-## Naming conventions
-### C++
+# Coding Standards
+## C++
+### Naming conventions
+
 These are taken from Microsoft guidelines
 | Name Type | Format | Comment |
 | --- | --- | --- |
@@ -14,4 +15,22 @@ These are taken from Microsoft guidelines
 | Constants | UPPER_CASE | |
 | File names | Match case of class name |
 
-### Python
+### Include files
+include files should be in the order of 
+1. Include file for that source file
+2. C system files
+3. C++ system files
+4. A blank line
+5. needed library .h files
+6. A blank line
+7. project .h files
+Forward declaration is desirable over nested include files.
+Every .h file should have a **#ifndef ... #define ... #endif** to protect for mulitiple inclusions.
+
+## Python
+
+### Naming Conventions
+Modules should have all lower case names
+Class names should be CamelCase
+funcion names should be lowercase.
+Constants should be UPPER_CASE
