@@ -10,7 +10,27 @@ specified by the block number and offset in the block. Then 200,000 voter ID rec
 
 The program this functions in two modes. The first is to read the data from a .csv file and construct the dictionary and the stored records. These are saved to disk.  The second mode is to load this dictionary in memory then read the list of voter IDs and retrieve the associated records. This second mode is selected by the single command line argument "-r".
 
-## Some Github notes
+## ScanWordFiles
+This 
+## dmpf
+This is a C program written a long time ago.  It reads a file, specified as the only command line argument, as binary. and prints it out in dump format. 
+That is hex codes for every two bytyes then if those codes can be represented by ASCII the text is shown. So that the command:
+> dmpf towork.bat
+
+on the file towork.bat having the contents
+> cd \projects\AAApython
+>
+> cd Flask1
+> 
+> dir
+
+will give: 
+> 000000   6364 205C 7072 6F6A 6563 7473 5C41 4141 7079 7468 6F6E 0D0A 6364 2046        cd \projects\AAApython..cd F
+> 
+> 00001C   6C61 736B 310D 0A64 6972 79                                                  lask1..diry
+
+
+### Some Github notes
 '''…or create a new repository on the command line
 echo "# Portfolio" >> README.md
 git init
