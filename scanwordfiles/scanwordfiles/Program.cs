@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using Word = Microsoft.Office.Interop.Word;
 /// <summary>
+///  Note: this may be placed in a utility directory such as 
+///  /users/glenn.000/AppData/Local/myprogs
 /// </summary>
 
 class Program
@@ -18,24 +20,22 @@ class Program
         Program p = new Program();
 
         string basepath = Directory.GetCurrentDirectory();
-        Console.WriteLine("Program version 1.0 from {0}", basepath);
+        Console.WriteLine("Program version 1.1 from {0}", basepath);
 
         //Console.WriteLine(" number of args {0}", args.Length);
 
         Console.WriteLine("");
 
-
-
         if (args.Length < 2)
         {
-            p.WriteUsageAndExit();  
+            p.WriteUsageAndExit(args);  
         }
         p.ReadCommandLineArguments(args.Length, ref tofind, ref basepath, ref verbose, ref nocase, ref helponly);
         tofind.Replace("\"", "");
 
         if (helponly)
         {
-            p.WriteUsageAndExit();
+            p.WriteUsageAndExit(args);
         }
         if (nocase)
         {
@@ -80,9 +80,16 @@ class Program
     /// <summary>
     /// This is to write a message and exit
     /// </summary>
-    void WriteUsageAndExit()
+    void WriteUsageAndExit(string [] args)
     {
-        Console.WriteLine(" Usage: scanwordfiles {string to find} {-h} {-nc} {-nv}");
+        var dir = AppDomain.CurrentDomain.BaseDirectory;
+        Console.WriteLine(" app is in {0} ", dir);
+        Console.Write(" Arguments: ");
+        foreach (string s in args)
+        {
+            Console.WriteLine(s);
+        }
+        Console.WriteLine(" Usage: scanwordfiles {string to find} {-p path} {-h} {-nc} {-nv}");
         Console.WriteLine("        . Where -nc means no case, and -nv mean not verbose");
         Console.WriteLine("        . and -h means help - write this message");
         Console.WriteLine("        String to find may not contain spaces and may alternativly be specified with -f {string to find}");
@@ -99,12 +106,12 @@ class Program
     /// <param name="nocase -- set by command line args fold all checking to lower case"></param>
     void ReadCommandLineArguments(int length, ref string tofind, ref string path,ref bool verbose, ref bool nocase, ref bool helponly)
     {
-        Console.Write(" Arguments: ");
-        int i = 1;
+        //Console.Write(" Arguments: ");
+        int i = 0;
         while (i <= length)
         {
             string argument = Environment.GetCommandLineArgs()[i];
-            Console.Write("{0} ", argument);
+            //Console.Write("{0} ", argument);
             if (argument == "-p" || argument == "-P")
             {
                 i++;
