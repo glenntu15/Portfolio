@@ -64,13 +64,35 @@ def ListThisDir(path, conservative):
             if (f.find(".pdb") > 1):
                 print(" Deleting: ",fullsubpath)
                 os.remove(fullsubpath)
+
+def ParseArgs(argv):
+    nargs = len(argv)
     
+        
+    rootdir = sys.argv[1]
+    print(" set rootdir to",rootdir)
+    consertive = True
+    if (nargs > 2):
+        for i in range(1,nargs):
+            print(" arg: ",sys.argv[i])
+            if (argv[i] == "-h"):
+                print(" Usage: findtodelete [path] -f  -h")
+                print(" path is fully qualified path to search, must be first argument")
+                print(" -f means full, ie delete .json and .dll files")
+                print(" -h prints this message and does not execute")
+                print(" if no arguments are gived the current directory is searched")
+                exit()
+            if sys.argv[2] == "-f":
+                conservative = False;
+    
+    return[rootdir,conservative]
+
+
 #------------------------------------------------------------------------------
 #  Main program starts here
 #------------------------------------------------------------------------------
-
-rootDir = os.getcwd()
-print(" scaning: ",rootDir)
+rootdir = os.getcwd()
+print(" scaning: ",rootdir)
 nargs = len(sys.argv)
 conservative = True
 #print(" nargs = ",nargs)
@@ -78,13 +100,12 @@ conservative = True
 
 
 if (nargs > 1):
-    rootDir = sys.argv[1]
-if (nargs > 2):
-    if sys.argv[2] == "-f":
-        conservative = True;
-        
+   [rootdir,conservative] =  ParseArgs(sys.argv)
+
+print(" after parseargs dir is ",rootdir)
+    
 print(" conservative is set to:",conservative)
 dirlevel = 0;
 
-ListThisDir(rootDir, conservative)
+ListThisDir(rootdir, conservative)
     
