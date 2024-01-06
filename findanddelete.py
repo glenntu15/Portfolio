@@ -41,6 +41,12 @@ def ListThisDir(path, conservative):
                 else:
                     print(" Deleting: ",fullsubpath)
                     os.remove(fullsubpath)
+            if (f.find(".dll") > 1):
+                if conservative == True:
+                    print("  ----> Check this one:   ", fullsubpath)
+                else:
+                    print(" Deleting: ",fullsubpath)
+                    os.remove(fullsubpath)
             if (f.find(".log") > 1):
                 print(" Deleting: ",fullsubpath)
                 os.remove(fullsubpath)
@@ -67,11 +73,10 @@ def ListThisDir(path, conservative):
 
 def ParseArgs(argv):
     nargs = len(argv)
-    
-        
+       
     rootdir = sys.argv[1]
     print(" set rootdir to",rootdir)
-    consertive = True
+    conservative = True
     if (nargs > 2):
         for i in range(1,nargs):
             print(" arg: ",sys.argv[i])
@@ -82,7 +87,7 @@ def ParseArgs(argv):
                 print(" -h prints this message and does not execute")
                 print(" if no arguments are gived the current directory is searched")
                 exit()
-            if sys.argv[2] == "-f":
+            if sys.argv[i] == "-f":
                 conservative = False;
     
     return[rootdir,conservative]
