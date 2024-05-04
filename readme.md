@@ -52,7 +52,7 @@ The following file types are deleted *.log, .obj, .tlog, .exe*.  When the -f com
 Usage
 > python findtodelete.py *path* -f -h
 >
-where -f is force - the program prings "conservative is False"
+where -f is force - the program prints "conservative is False"
 
 and -h is help (prints usage message but there is no execution
 
