@@ -12,17 +12,15 @@ The program this functions in two modes. The first is to read the data from a .c
 
 ## ScanWordFiles
 This C# console program was developed to search all the .docx files in a directory for a particular string of text. Since word files are not stored in ASCII the Windows find will not adequately search the contents of .docx files. This program uses **Microsoft.Office.Interop.Word.Document** to open each document in the specified folder and read the contents.  The program searches only one folder and does not go into subdirectories. 
+The following files shold be placed in a dirctory in the *path*: scanwordfiles.dll, scanworrdfiles.exe, scanwordfiles.runtimeconfig.json
+
 
 Usage is as follows. 
-> scanwordfiles *path* -nc -nv
+> scanwordfiles *string to find* *path* -nc -nv
 
-Where *path* is the fully ## ScanWordFiles
-This C# console program was developed to search all the .docx files in a directory for a particular string of text. Since word files are not stored in ASCII the Windows find will not adequately search the contentes of .docx files. This program uses **Microsoft.Office.Interop.Word.Document** to open each document in the specified folder and read the contents.  The program searches only one folder and does not go into subdirectories. 
+Where *string to find* may not contain spaces 
 
-Usage is as follows. 
-> scanwordfiles *path* -nc -nv
-
-Where *path* is the fully qualified folder name
+*path* is the fully qualified folder name
 
 -nc means No Case (case sensitive is the default)
 
@@ -31,7 +29,7 @@ Where *path* is the fully qualified folder name
 ## Findanddelete
 The program findanddelete.py was written to help clean up a directory with a large number of subdirectories for Visual Studio projects (mix of C#, C++, and Python).
 
-The following file types are deleted *.log, .obj, .tlog, .exe*.  When the -f command line option is used *.json* files are deleted also.
+The following file types are deleted *.log, .obj, .tlog, .exe*.  When the -f (force) command line option is used *.json* files are deleted also.
 
 Usage
 > python findtodelete.py *path* -f -h
