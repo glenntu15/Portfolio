@@ -11,7 +11,7 @@ specified by the block number and offset in the block. Then 200,000 voter ID rec
 The program this functions in two modes. The first is to read the data from a .csv file and construct the dictionary and the stored records. These are saved to disk.  The second mode is to load this dictionary in memory then read the list of voter IDs and retrieve the associated records. This second mode is selected by the single command line argument "-r".
 
 ## ScanWordFiles
-This C# console program was developed to search all the .docx files in a directory for a particular string of text. Since word files are not stored in ASCII the Windows find will not adequately search the contents of .docx files. This program uses **Microsoft.Office.Interop.Word.Document** to open each document in the specified folder and read the contents.  The program searches only one folder and does not go into subdirectories. 
+This C# console program was developed to search all the .docx files in a directory for a particular string of text. Since word files are not stored in ASCII, the Windows/DOS "find" command will not adequately search the contents of .docx files. This program uses **Microsoft.Office.Interop.Word.Document** to open each document in the specified folder and read the contents.  The program searches only one folder and does not go into subdirectories. 
 The following files shold be placed in a dirctory in the *path*: scanwordfiles.dll, scanworrdfiles.exe, scanwordfiles.runtimeconfig.json
 
 
