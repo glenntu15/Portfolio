@@ -1,14 +1,6 @@
 import os
 import sys
 
-#for dirName, subdirList, fileList in os.walk(rootDir):
-##
-#    for i in subdirList:
-#        print(" next level i",i)
-#    if (dirName == ".git"):
-#        continue
-#    for fname in fileList:
-#        print('\t%s' % fname)
 
 def ListThisDir(path, conservative):
 
@@ -30,85 +22,119 @@ def ListThisDir(path, conservative):
         else:
             #print("        file ",f)
             if (f.find(".circ") > 1):
-                if conservative == True:
+                if conservative == True or nodelete == True:
                     print("  ----> Check this one:   ", fullsubpath)
                 else:
                     print(" Deleting: ",fullsubpath)
                     os.remove(fullsubpath)
             if (f.find(".json") > 1):
-                if conservative == True:
+                if conservative == True or nodelete == True:
                     print("  ----> Check this one:   ", fullsubpath)
                 else:
                     print(" Deleting: ",fullsubpath)
                     os.remove(fullsubpath)
             if (f.find(".dll") > 1):
-                if conservative == True:
+                if conservative == True or nodelete:
                     print("  ----> Check this one:   ", fullsubpath)
                 else:
                     print(" Deleting: ",fullsubpath)
                     os.remove(fullsubpath)
             if (f.find(".log") > 1):
-                print(" Deleting: ",fullsubpath)
-                os.remove(fullsubpath)
+                if (nodelete == False):
+                    print(" Deleting: ",fullsubpath)
+                    os.remove(fullsubpath)
+                else:
+                    print(" not deleting: ",fullsubpath)
             if (f.find(".obj") > 1):
-                print(" Deleting: ",fullsubpath)
-                os.remove(fullsubpath)
+                if (not nodelete):
+                    print(" Deleting: ",fullsubpath)
+                    os.remove(fullsubpath)
+                else:
+                    print(" not deleting: ",fullsubpath)
             if (f.find(".tlog") > 1):
-                print(" Deleting: ",fullsubpath)
-                os.remove(fullsubpath)
+                if (not nodelete):
+                    print(" Deleting: ",fullsubpath)
+                    os.remove(fullsubpath)
+                else:
+                    print(" not deleting: ",fullsubpath)
             if (f.find(".exe") > 1):
                 print(" Deleting: ",fullsubpath)
                 os.remove(fullsubpath)
             loc = f.find(".cache")
             if (loc > 1 ):
-                diff = len(f)  - loc;
+                diff = len(f)  - loc
                 if (diff == 6):
-                    print(" Deleting: ",fullsubpath)
-                    os.remove(fullsubpath)
+                    if (not nodelete):
+                        print(" Deleting: ",fullsubpath)
+                        os.remove(fullsubpath)
+                    else:
+                     print(" not deleting: ",fullsubpath)
 
                 #print(" file is: ",fullsubpath," diff is ",diff)
             if (f.find(".pdb") > 1):
-                print(" Deleting: ",fullsubpath)
-                os.remove(fullsubpath)
+                if (not nodelete):
+                    print(" Deleting: ",fullsubpath)
+                    os.remove(fullsubpath)
+                else:
+                    print(" not deleting: ",fullsubpath)
 
 def ParseArgs(argv):
     nargs = len(argv)
        
-    rootdir = sys.argv[1]
-    print(" set rootdir to",rootdir)
-    conservative = True
-    if (nargs > 2):
-        for i in range(1,nargs):
-            print(" arg: ",sys.argv[i])
-            if (argv[i] == "-h"):
-                print(" Usage: findtodelete [path] -f  -h")
-                print(" path is fully qualified path to search, must be first argument")
-                print(" -f means full, ie delete .json and .dll files")
-                print(" -h prints this message and does not execute")
-                print(" if no arguments are gived the current directory is searched")
-                exit()
-            if sys.argv[i] == "-f":
-                conservative = False;
+    rootdir = os.getcwd()
+
+    print(" nargs = ",nargs)
+    conservative =True
+    helponly = False
+    nodelete = False
     
-    return[rootdir,conservative]
+    for i in range(1,nargs):
+        print(" arg: ",sys.argv[i])
+        if argv[i][0] != '-':
+            rootdir = sys.argv[1]
+            print(" set rootdir to",rootdir)
+            continue
+        elif (argv[i] == "-h"):
+            helponly = True
+        elif (argv[i] == "-nd" or argv[i] == "-n"):
+            nodelete = True
+        elif sys.argv[i] == "-f":
+            conservative = False
+            print(" -f processed, conservative = ",conservative)
+        else:
+            print("unnown argument ",argv[i])
+            
+    
+    return[rootdir,conservative,nodelete,helponly]
 
 
 #------------------------------------------------------------------------------
 #  Main program starts here
 #------------------------------------------------------------------------------
-rootdir = os.getcwd()
-print(" scaning: ",rootdir)
 nargs = len(sys.argv)
 conservative = True
-#print(" nargs = ",nargs)
-#print("argv ", sys.argv)
+print(" nargs = ",nargs)
+print("argv ", sys.argv)
+#set defaults incase no command args need to be processed
+helponly = False
+rootdir = os.getcwd()
 
 
 if (nargs > 1):
-   [rootdir,conservative] =  ParseArgs(sys.argv)
+   [rootdir,conservative,nodelete,helponly] =  ParseArgs(sys.argv)
+   
+if (helponly):
+    print(" Usage: findtodelete [path] -f  -h")
+    print(" path is fully qualified path to search, must be first argument")
+    print(" -f means full, ie delete .json and .dll files")
+    print(" -h prints this message and does not execute")
+    print(" if no arguments are gived the current directory is searched")
+    exit()
 
+##debug
 print(" after parseargs dir is ",rootdir)
-    
+print(" scaning: ",rootdir)
+
 print(" conservative is set to:",conservative)
 dirlevel = 0;
 
