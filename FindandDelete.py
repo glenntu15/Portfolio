@@ -118,15 +118,16 @@ print("argv ", sys.argv)
 #set defaults incase no command args need to be processed
 helponly = False
 rootdir = os.getcwd()
-
+nodelete = False
 
 if (nargs > 1):
    [rootdir,conservative,nodelete,helponly] =  ParseArgs(sys.argv)
    
 if (helponly):
-    print(" Usage: findtodelete [path] -f  -h")
+    print(" Usage: FindandDelete [path] -f -n -h")
     print(" path is fully qualified path to search, must be first argument")
     print(" -f means full, ie delete .json and .dll files")
+    print(" -n no delete is done - just file listing")
     print(" -h prints this message and does not execute")
     print(" if no arguments are gived the current directory is searched")
     exit()
@@ -136,6 +137,7 @@ print(" after parseargs dir is ",rootdir)
 print(" scaning: ",rootdir)
 
 print(" conservative is set to:",conservative)
+print(" nodelete is set to ",nodelete)
 dirlevel = 0;
 
 ListThisDir(rootdir, conservative)
