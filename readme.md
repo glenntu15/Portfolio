@@ -16,7 +16,7 @@ The following files shold be placed in a dirctory in the *path*: scanwordfiles.d
 
 
 Usage is as follows. 
-> scanwordfiles *string to find* *path* -nc -nv
+> scanwordfiles *string to find* -p *path* -nc -nv
 
 Where *string to find* may not contain spaces 
 
