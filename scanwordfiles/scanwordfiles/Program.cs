@@ -91,7 +91,7 @@ class Program
         }
         Console.WriteLine(" Usage: scanwordfiles {string to find} {-p path} {-h} {-nc} {-nv}");
         Console.WriteLine("        . Where -nc means no case, and -nv mean not verbose");
-        Console.WriteLine("        . and -h means help - write this message");
+        Console.WriteLine("        . and -h means help (only) - write this message");
         Console.WriteLine("        String to find may not contain spaces and may alternativly be specified with -f {string to find}");
         Environment.Exit(0);
 
@@ -111,7 +111,7 @@ class Program
         while (i <= length)
         {
             string argument = Environment.GetCommandLineArgs()[i];
-            //Console.Write("{0} ", argument);
+            if (verbose) Console.Write("{0} ", argument);
             if (argument == "-p" || argument == "-P")
             {
                 i++;
